@@ -48,7 +48,7 @@ import {
   
     const [portState, setPortState] = useState<PortState>("closed");
     const [hasTriedAutoconnect, setHasTriedAutoconnect] = useState(false);
-    const [hasManuallyDisconnected, setHasManuallyDisconnected] = useState(false);
+    const [, setHasManuallyDisconnected] = useState(false);
   
     const portRef = useRef<SerialPort | null>(null);
     const readerRef = useRef<ReadableStreamDefaultReader | null>(null);
@@ -91,7 +91,7 @@ import {
               break;
             }
             const timestamp = Date.now();
-            Array.from(subscribersRef.current).forEach(([name, callback]) => {
+            Array.from(subscribersRef.current).forEach(([, callback]) => {
               callback({ value, timestamp });
             });
           }
@@ -143,21 +143,21 @@ import {
       return false;
     };
   
-    const autoConnectToPort = async () => {
-      if (canUseSerial && portState === "closed") {
-        setPortState("opening");
-        const availablePorts = await navigator.serial.getPorts();
-        if (availablePorts.length) {
-          const port = availablePorts[0];
-          await openPort(port);
-          return true;
-        } else {
-          setPortState("closed");
-        }
-        setHasTriedAutoconnect(true);
-      }
-      return false;
-    };
+    // const autoConnectToPort = async () => {
+    //   if (canUseSerial && portState === "closed") {
+    //     setPortState("opening");
+    //     const availablePorts = await navigator.serial.getPorts();
+    //     if (availablePorts.length) {
+    //       const port = availablePorts[0];
+    //       await openPort(port);
+    //       return true;
+    //     } else {
+    //       setPortState("closed");
+    //     }
+    //     setHasTriedAutoconnect(true);
+    //   }
+    //   return false;
+    // };
   
     const manualDisconnectFromPort = async () => {
       if (canUseSerial && portState === "open") {

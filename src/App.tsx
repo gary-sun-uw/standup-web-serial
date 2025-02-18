@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
 import { SerialMessage, useSerial } from './SerialProvider'
 
@@ -11,14 +10,13 @@ const States =  {
 }
 
 function App() {
-  const [count, setCount] = useState(0)
   const {portState, connect, disconnect, subscribe} = useSerial();
   const [state, setState] = useState(States.unknown);
-  const [interval, setInterval] = useState<number>(5);
+  const [, setInterval] = useState<number>(5);
   const [time, setTime] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
 
-  const callback = useCallback(({ value, timestamp }: SerialMessage) => {
+  const callback = useCallback(({ value }: SerialMessage) => {
     const cleaned = value.replace('\n', '').replace('\r', '');
     console.log(cleaned);
     if(cleaned.startsWith("t:")){
