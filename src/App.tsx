@@ -12,7 +12,7 @@ const States =  {
 function App() {
   const {portState, connect, disconnect, subscribe} = useSerial();
   const [state, setState] = useState(States.unknown);
-  const [, setInterval] = useState<number>(5);
+  //const [interval, setInterval] = useState<number>(5);
   const [time, setTime] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
 
