@@ -11,9 +11,8 @@
   border-radius: 4px;
   display: flex;
   flex-direction: column;
-  height:fit-content;
+  height: 90px;
   gap: 10px;
-  height: 120px;
 }
 
 .main-container {
@@ -35,8 +34,12 @@
 .bold-text {
   font-weight: bold;
   font-size: xx-large;
+  margin-bottom: auto;
+  margin-top: auto;
 }
 
 .header-text {
+  margin-top: auto;
+  margin-bottom: auto;
   white-space: nowrap;
 }

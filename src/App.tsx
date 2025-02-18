@@ -27,20 +27,14 @@ function App() {
       }
     }
 
-    switch(cleaned){
-      case 'i':
-      case 'y':
-        setState(States.sit);
-        break;
-      case 'x':
-        setState(States.stand);
-        break;
-      case '5':
-      case '10':
-      case '20':
-      case '40':
-        setInterval(Number(value));
-        break;
+    if(cleaned.includes('x')){
+      setState(States.stand);
+      return;
+    }
+
+    if(cleaned.includes('y')){
+      setState(States.sit);
+      return;
     }
   }, []);
 
@@ -50,12 +44,30 @@ function App() {
 
   useEffect(() => {
     if(state == States.stand){
-      const newTotal = total + time;
-      setTotal(newTotal);
+      setTotal(total + time);
       setTime(0);
     }
   }, [state]);
 
+
+  const getFormattedTime = (seconds: number): string => {
+    if(seconds < 60){
+      return seconds + 's';
+    }
+
+    if(seconds < 3600){
+      const min = Math.floor(seconds/60);
+      const sec = seconds - min*60;
+      return min + 'm ' + sec + 's';
+    }
+
+    const hour = Math.floor(seconds/3600);
+    const rem1 = seconds - hour*3600;
+    const min = Math.floor(rem1/60);
+    const sec = rem1 - min*60;
+
+    return hour + "h " + min + 'm ' + sec + 's';
+  }
 
   return (
     <>
@@ -68,7 +80,6 @@ function App() {
             <button type='button' onClick={() => disconnect()}>
               disconnect
             </button>
-
         </div>
         <div className='card'>
           <span className='header-text'>serial connection: </span>
@@ -82,11 +93,11 @@ function App() {
         </div>
         <div className='card'>
           <span className='header-text'>{'you have been sitting for '}</span>
-          <span className='bold-text'>{time+'s'}</span>
+          <span className='bold-text'>{getFormattedTime(time)}</span>
         </div>
         <div className='card'>
           <span className='header-text'>{'total time spent sitting '}</span>
-          <span className='bold-text'>{total+'s'}</span>
+          <span className='bold-text'>{getFormattedTime(total)}</span>
         </div>
       </div>
       </div>
