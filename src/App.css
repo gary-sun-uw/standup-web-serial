@@ -1,0 +1,42 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.card {
+  padding: 2em;
+  box-shadow: rgba(0, 0, 0, 0.553) 0px 0px 1px 1px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  height:fit-content;
+  gap: 10px;
+  height: 120px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  gap: 10px
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  place-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bold-text {
+  font-weight: bold;
+  font-size: xx-large;
+}
+
+.header-text {
+  white-space: nowrap;
+}
