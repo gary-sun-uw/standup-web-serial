@@ -7,8 +7,9 @@
 
 .card {
   padding: 2em;
-  box-shadow: rgba(0, 0, 0, 0.553) 0px 0px 1px 1px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.1);
   border-radius: 4px;
+  background-color: azure;
   display: flex;
   flex-direction: column;
   height: 90px;
@@ -38,8 +39,33 @@
   margin-top: auto;
 }
 
+
+.bold-text-notify {
+  font-weight: bold;
+  font-size: xx-large;
+  margin-bottom: auto;
+  margin-top: auto;
+  color: red;
+}
+
 .header-text {
   margin-top: auto;
   margin-bottom: auto;
   white-space: nowrap;
+}
+
+.blink {
+  animation: blink-animation 1s infinite;
+}
+
+@keyframes blink-animation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

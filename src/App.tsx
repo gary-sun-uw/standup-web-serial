@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-
 import './App.css'
 import { SerialMessage, useSerial } from './SerialProvider'
 
@@ -9,12 +8,15 @@ const States =  {
   unknown: '???'
 }
 
+const stateClassInitial = 'bold-text';
+
 function App() {
   const {portState, connect, disconnect, subscribe} = useSerial();
   const [state, setState] = useState(States.unknown);
-  //const [interval, setInterval] = useState<number>(5);
   const [time, setTime] = useState<number>(0);
   const [total, setTotal] = useState<number>(0);
+  const [stateClass, setStateClass] = useState<string>(stateClassInitial);
+  const [notify, setNotify] = useState<boolean>(false);
 
   const callback = useCallback(({ value }: SerialMessage) => {
     const cleaned = value.replace('\n', '').replace('\r', '');
@@ -24,6 +26,16 @@ function App() {
       if(n > time){
         setTime(n);
         state != States.sit && setState(States.sit);
+        notify && setNotify(false);
+      }
+    }
+
+    if(cleaned.startsWith("T:")){
+      const n = Number(cleaned.slice(2));
+      if(n > time){
+        setTime(n);
+        state != States.sit && setState(States.sit);
+        !notify && setNotify(true);
       }
     }
 
@@ -46,9 +58,16 @@ function App() {
     if(state == States.stand){
       setTotal(total + time);
       setTime(0);
+      setNotify(false);
     }
-  }, [state]);
 
+    setStateClass(v => v + ' blink');
+
+    setTimeout(() => {
+      setStateClass(stateClassInitial);
+    }, 1000);
+
+  }, [state]);
 
   const getFormattedTime = (seconds: number): string => {
     if(seconds < 60){
@@ -89,18 +108,18 @@ function App() {
       <div className='container'>
         <div className='card'>
           <span className='header-text'>{'your are'}</span>
-          <span className='bold-text'>{state}</span>
+          <span className={stateClass}>{state}</span>
         </div>
         <div className='card'>
           <span className='header-text'>{'you have been sitting for '}</span>
-          <span className='bold-text'>{getFormattedTime(time)}</span>
+          <span className={notify ? 'bold-text-notify' : 'bold-text'}>{getFormattedTime(time)}</span>
         </div>
         <div className='card'>
           <span className='header-text'>{'total time spent sitting '}</span>
           <span className='bold-text'>{getFormattedTime(total)}</span>
         </div>
       </div>
-      </div>
+    </div>
     </>
   )
 }
